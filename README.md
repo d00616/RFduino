@@ -17,7 +17,7 @@ To flash compiled code at the moment, call JLinkExe manually:
 		exit
 
 My example code for an PCA10000 board. LEDs stay off at the moment
-<code>
+```c
 #include "nrf_gpio.h"
 #include "nrf_delay.h"
 #include "boards.h"
@@ -59,7 +59,7 @@ static __INLINE void configure_pin(uint32_t pin)
                             | (GPIO_PIN_CNF_INPUT_Connect << GPIO_PIN_CNF_INPUT_Pos)
                             | (GPIO_PIN_CNF_DIR_Output << GPIO_PIN_CNF_DIR_Pos);
 }	
-</code>
+```
 
 Startup code can be created unter linux with /opt/arduino/hardware/arduino/RFduino/system/nRF51/source/build.sh
 
