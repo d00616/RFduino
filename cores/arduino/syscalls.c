@@ -70,7 +70,11 @@
 
 #undef errno
 extern int errno ;
-extern int  _end ;
+#ifndef __NRF51SDK_STARTUP__
+    extern int  _end ;
+#else
+    extern int __bss_end__;
+#endif
 
 /*----------------------------------------------------------------------------
  *        Exported functions
@@ -86,7 +90,11 @@ extern caddr_t _sbrk ( int incr )
 
     if ( heap == NULL )
     {
-        heap = (unsigned char *)&_end ;
+        #ifndef __NRF51SDK_STARTUP__
+            heap = (unsigned char *)&_end ;
+        #else
+            heap = (unsigned char *)&__bss_end__ ;
+        #endif
     }
     prev_heap = heap;
 

@@ -25,7 +25,7 @@
 */
 
 /*
-  Copyright (c) 2011-2012 Arduino.  All right reserved.
+  Copyright (c) 2011 Arduino.  All right reserved.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -42,34 +42,6 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#include "WInterrupts.h"
+// API compatibility
+#include "variant.h"
 
-void attachInterrupt(uint8_t IRQn, callback_t callback)
-{
-#ifndef __NRF51SDK_STARTUP__
-  dynamic_handlers[IRQn] = callback;
-  rfduino_nvic_enableirq(IRQn);
-#else
- #warning "Dynamic interrupts are not implemented yes. Please fix this"
-#endif
-}
-
-void detachInterrupt(uint8_t IRQn)
-{
-#ifndef __NRF51SDK_STARTUP__
-  rfduino_nvic_disableirq(IRQn);
-  dynamic_handlers[IRQn] = NULL;
-#else
- #warning "Dynamic interrupts are not implemented yes. Please fix this"
-#endif
-}
-
-void attachPinInterrupt(uint32_t pin, pin_callback_t callback, uint32_t mode)
-{
-  RFduino_pinWakeCallback(pin, mode, callback);
-}
-
-void detachPinInterrupt(uint32_t pin)
-{
-  RFduino_pinWakeCallback(pin, DISABLE, NULL);
-}
