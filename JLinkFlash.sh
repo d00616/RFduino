@@ -84,7 +84,7 @@ while [ "$filesize" -gt 0 ]; do
 done
 
 cat >>"${script}" <<EOF
-sleep 1000
+sleep 2000
 w4 0x4001e504,1
 loadbin "${BINFILE}", $flashstart
 verifybin "${BINFILE}", $flashstart
