@@ -1,3 +1,0 @@
-Implement Dynamic Interrupt handlers from original RFduino startup_nrf51822.c
-	- WInterrupts.c
-	- variant.cpp init() function
