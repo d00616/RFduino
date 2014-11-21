@@ -9,7 +9,7 @@ nRF51.build.core=arduino
 nRF51.build.extra_flags=-mthumb -march=armv6-m -D__nRF51__ -DNRF51 -D__NRF51_HFCLOCK__ -DBOARD_PCA10000
 nRF51.build.ldscript=linker_scripts/gcc/gcc_nrf51_blank_xxaa.ld
 nRF51.build.variant=nRF51
-nRF51.build.variant_system_include="-I{build.system.path}/nRF51-SDK/nrf51422/Include" "-I{build.system.path}/nRF51-SDK/nrf51822/Include" "-I{build.system.path}/nRF51" "-I{build.system.path}/RFduino/include" "-I{build.system.path}/CMSIS/CMSIS/Include"
+nRF51.build.variant_system_include="-I{build.system.path}/nRF51-SDK/nrf51422/Include" "-I{build.system.path}/nRF51-SDK/nrf51822/Include" "-I{build.system.path}/nRF51" "-I{build.system.path}/nRF51/include" "-I{build.system.path}/CMSIS/CMSIS/Include" "-I{build.path}" "-I{build.variant.path}/board"
 nRF51.build.variant_system_lib="{build.variant.path}/libnRF51System.a"
 nRF51.upload.tool=nRF51JLink
 
