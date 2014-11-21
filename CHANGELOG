@@ -1,5 +1,14 @@
 CHANGELOG
 
+v 3.0
+   - Fork project to nRF51duino
+   - Remove RFduino specific files
+   - New, open source core code
+   - rename function calls and files
+   - Linux flash script
+
+===RFduino====
+
 v 2.2
   - Support for nonconnectable advertisement
   - Corrected temperature comments (thanks DasBasti).

@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "libRFduino.h"
+#include "libnRF51duino.h"
 #include "nrf51.h"
 
 /**

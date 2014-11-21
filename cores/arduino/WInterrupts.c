@@ -46,22 +46,14 @@
 
 void attachInterrupt(uint8_t IRQn, callback_t callback)
 {
-#ifndef __NRF51SDK_STARTUP__
   dynamic_handlers[IRQn] = callback;
   rfduino_nvic_enableirq(IRQn);
-#else
- #warning "Dynamic interrupts are not implemented yes. Please fix this"
-#endif
 }
 
 void detachInterrupt(uint8_t IRQn)
 {
-#ifndef __NRF51SDK_STARTUP__
   rfduino_nvic_disableirq(IRQn);
   dynamic_handlers[IRQn] = NULL;
-#else
- #warning "Dynamic interrupts are not implemented yes. Please fix this"
-#endif
 }
 
 void attachPinInterrupt(uint32_t pin, pin_callback_t callback, uint32_t mode)

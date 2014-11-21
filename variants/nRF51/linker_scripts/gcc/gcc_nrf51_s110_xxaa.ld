@@ -1,6 +1,6 @@
 /* Linker script to configure memory regions. */
 
-SEARCH_DIR("hardware/arduino/RFduino/variants/nRF51/linker_scripts/gcc")
+SEARCH_DIR("hardware/arduino/nRF51duino/variants/nRF51/linker_scripts/gcc")
 GROUP(-lgcc -lc -lnosys)
 
 MEMORY

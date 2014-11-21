@@ -70,7 +70,7 @@ extern "C"{
 
 void yield(void);
 
-#include "libRFduino.h"
+#include "libnRF51duino.h"
 
 #include "wiring.h"
 #include "wiring_digital.h"

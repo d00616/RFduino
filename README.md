@@ -1,120 +1,68 @@
-### Warning ###
+### nRF51duino
 
-This code is not working at the moment for plain nRF51422, nRF51822 and nRF51922 chips. It possible to
-compile an arduino sketch but it looks like its not starting. Last time i flashed the above example my previous
-code was started.
+This code supports nRF51822 and nRF41422 chips from Nordic Semiconductor. At the moment no
+Softdevice functionality is supported out of the box A native Radio Library is planned. Feel
+free to add Softdevice or native BLE support so BLE or ANT+ can be used without Nordic nRF51
+SDK.
 
-To use this Software you need access to original nRF51 SDK (Tested with version v6.0.0.43681).
-Copy nRF51822 directory to hardware/arduino/RFduino/system/nRF51-SDK/nRF51822
+Please keep in mind that using Nordic SDK functionality is not open source friendly at the
+moment. All example code and a lot of header files doesn't allow redistribution of source
+code. 
 
-To flash compiled code at the moment, call JLinkExe manually:
-	/opt/arduino-1.5.7/hardware/tools/gcc-arm-none-eabi-4.8.3-2014q1/bin/arm-none-eabi-objcopy -O binary /tmp/build2977480947880635154.tmp/Blink.cpp.elf /tmp/build2977480947880635154.tmp/Blink.cpp.bin
-	JLinkExe
-		r
-		loadbin /tmp/build2977480947880635154.tmp/Blink.cpp.bin 00000000
-		r
-		g
-		exit
+To start you need an nRF51 development board and an JLink Adapter. If you plan using BLE or
+ANT+ functionality buy an offical Development Kit. If you plan to use more than one board
+choose an Development Kit with an external JLink adapter. If you want to use ANT+ protocol
+choose an nRF51422 or nRF51922 kit.
 
-My example code for an PCA10000 board. LEDs stay off at the moment
-```c
-#include "nrf_gpio.h"
-#include "nrf_delay.h"
-#include "boards.h"
+Whats not working at the moment
+ - Flashing Software under Windows
+ - A lot of untested functionality
 
+Tested at the moment:
+ - Startcode
+ - RTC
+ - DigitalWrite
+ - Delay
+ - Serial interface
 
-void setup() {
-  // put your setup code here, to run once:
-      // Configure Pins as HIGH drive Output
-    #ifdef LED_RGB_RED
-     configure_pin(LED_RGB_RED);
-    #endif
+I Need help to:
+ - remove linker warnings
+ - write libraries for integrated chip hardware (Random, AES, CRC, Radio, Timer, RTC0, ...)
+ - port my flash script to windows
+ - test my flash script on OSX
 
-    #ifdef LED_RGB_GREEN
-     configure_pin(LED_RGB_GREEN);
-    #endif
-   
-    #ifdef LED_RGB_BLUE
-     configure_pin(LED_RGB_BLUE);
-    #endif
- 
-    nrf_gpio_pin_clear(LED_RGB_RED);
-    nrf_gpio_pin_set(LED_RGB_BLUE);
-    nrf_gpio_pin_clear(LED_RGB_GREEN);
-}
+Not planned by me, but a good idea making this software better:
+ - support SoftDevices without Nordic SDK (https://github.com/mrquincle/bluenet) or Porting a
+   complete BLE stack http://code.google.com/p/btstack/
+ - A Jlink indipended Bootloader
 
-void loop() {
-  // put your main code here, to run repeatedly:
+This is a fork of RFduino with broken compatibility because there are a lot of non open source
+files in RFduino. I have broken command compatibility to get more indipended and make it easy
+recreate core functionality. Thanks RFduino for all open source code i can use here.
 
-}
-
-/**
- * Configure a pin as high drive output
- */
-static __INLINE void configure_pin(uint32_t pin)
-{
-    NRF_GPIO->PIN_CNF[pin]  = (GPIO_PIN_CNF_SENSE_Disabled << GPIO_PIN_CNF_SENSE_Pos)
-                            | (GPIO_PIN_CNF_DRIVE_H0H1 << GPIO_PIN_CNF_DRIVE_Pos)
-                            | (GPIO_PIN_CNF_PULL_Disabled << GPIO_PIN_CNF_PULL_Pos)
-                            | (GPIO_PIN_CNF_INPUT_Connect << GPIO_PIN_CNF_INPUT_Pos)
-                            | (GPIO_PIN_CNF_DIR_Output << GPIO_PIN_CNF_DIR_Pos);
-}	
-```
-
-Startup code can be created unter linux with /opt/arduino/hardware/arduino/RFduino/system/nRF51/source/build.sh
-
-
-### RFduino: Shrunk down an Arduino to the size of a finger-tip and made it Wireless!
-
-![logo](https://raw.github.com/RFduino/RFduino/master/4up%20image.jpg)  
-
-[Video](http://www.youtube.com/watch?v=arWBdGwCJcM)  
+WARNING: Please don't connect more then one board at the same thime when flashing.
 
 ### Installation
-
-* Get the hardware here: [http://RFduino.com](http://RFduino.com)
 
 * Download Arduino 1.5 here: [http://arduino.cc](http://arduino.cc/en/Main/Software)  
   (on osx remember to open arduino first to make gatekeeper perform its magic)  
 
-* Copy the RFduino directory from this repository in Arduino  
+* Copy the nRF51duino directory from this repository in Arduino  
   (on Windows, C:\arduino-1.5.4\hardware\arduino)  
   (on OSX, /Applications/Arduino.app/Contents/Resources/Java/hardware/arduino)  
-  or "git clone https://github.com/RFduino/RFduino" in the directory indicated
-
-* Install the FTDI drivers from here: [http://ftdichip.com](http://www.ftdichip.com/Drivers/VCP.htm)
+  or "git clone https://github.com/d00616/nRF51duino" in the directory indicated
 
 Your ready to go!
 
-Detailed instructions are available here: [Quick Start Guide](http://files.rfdigital.com/rfduino.quick.start.guide.pdf)
-
 ### Getting Started
 
-* Attach the USB shield
+* Select a nRF51 Board from the Tools/Board menu
 
-* Select RFduino from the Tools/Board menu
-
-* Select the port from the Tools/Port menu
-
-* Select an example from the Files/Examples/RFduinoNonBLE or Files/Examples/RFduinoBLE directory
+* Select an example from the Files/Examples/RFduinoNonBLE directory
 
 * Select Upload to compile, upload and execute the sketch
 
-* Down the iPhone example apps from the iPhone App Store (search for "RFduino").
+### Define you own board layout
 
-Detailed instructions for the Temperature app are available here: [Temperature App](http://files.rfdigital.com/rfduino.temperature.guide.pdf)  
-Detailed instructions for the ColorWheel app are available here: [ColorWheel App](http://files.rfdigital.com/rfduino.rgb.colorwheel.guide.pdf)  
-
-### Communicating with us
-
-The best way to communiate with us is here: [RFduino Forum](http://forum.RFduino.com).
-
-### A Lot More Coming!
-
-We are working on documentation as fast as we can.  Until then, the best source for documentation is the sketch examples.
-
-This project has been a huge success, and we have many exciting things planned that we want to share with the community.  At the same time, we are unbelievable busy, with a ton going on and lots of small items to clean up.  We are just a small team working on this project ... please bear with us!
-
-We hope you enjoy creating stuff with your RFduino as much as we do!
-
-The RFduino team.
+nRF51duino comes with predifinions for an PCA10000 Board. You can create your
+own "board.h" file in your Sketch to override settings.

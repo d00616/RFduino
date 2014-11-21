@@ -1,4 +1,23 @@
 /*
+  Copyright (c) 2014 D00616.  All right reserved.
+
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
+
+/*
  Copyright (c) 2013 OpenSourceRF.com.  All right reserved.
 
  This library is free software; you can redistribute it and/or
@@ -82,21 +101,53 @@ void rtc_config()
 {
     NRF_RTC1->TASKS_STOP = 1;	// Stop RTC timer
     NRF_RTC1->TASKS_CLEAR = 1;	// Clear timer
-	  NRF_RTC1->PRESCALER = 0;	// No prescaling => 1 tick = 1/32768Hz = 30.517us
-	  NRF_RTC1->EVTENSET = (RTC_EVTENSET_OVRFLW_Set << RTC_EVTENSET_OVRFLW_Pos); // Enable OVRFLW Event
-	  NRF_RTC1->INTENSET = (RTC_INTENSET_OVRFLW_Set << RTC_INTENSET_OVRFLW_Pos); // Enable OVRFLW Interrupt
+    NRF_RTC1->PRESCALER = 0;	// No prescaling => 1 tick = 1/32768Hz = 30.517us
+    NRF_RTC1->EVTENSET = (RTC_EVTENSET_OVRFLW_Set << RTC_EVTENSET_OVRFLW_Pos); // Enable OVRFLW Event
+    NRF_RTC1->INTENSET = (RTC_INTENSET_OVRFLW_Set << RTC_INTENSET_OVRFLW_Pos); // Enable OVRFLW Interrupt
     attachInterrupt(RTC1_IRQn, RTC1_Interrupt);
     NRF_RTC1->TASKS_START = 1;	// Start RTC
 }
 
+
+void __libc_init_array(void);
+
 void init( void )
 {
-#ifndef __NRF51SDK_STARTUP__
-    // NRF51822 doesn't implement SysTick, so use the RTC for timing
-    rtc_config();
-#else
-    #warning "Dynamic interrupts are not implemented yes. Please fix this"
-#endif
+  #ifdef __NRF51_HFCLOCK__
+    // Initialize 16 MHz crystal oscillator. 470uA + 1.1mA@400us Startup current
+    NRF_CLOCK->EVENTS_HFCLKSTARTED  = 0;
+    NRF_CLOCK->TASKS_HFCLKSTART = 1;
+    // Wait until oscillator startup is finished
+    while (NRF_CLOCK->EVENTS_HFCLKSTARTED == 0) { }
+    NRF_CLOCK->EVENTS_HFCLKSTARTED = 0;
+  #else
+    // RC oscillator 750uA + 400uA@2.5us Startup current
+  #endif
+  
+  // Start 32768Hz Clock for RTC
+  #ifndef __NRF51_LFCLOCK__
+      // External oscillator 0.4uA + 1.3uA@300ms Startup current
+      NRF_CLOCK->LFCLKSRC = (CLOCK_LFCLKSRC_SRC_Xtal << CLOCK_LFCLKSRC_SRC_Pos);
+  #else
+      #ifdef __NRF51_HFCLOCK__
+        // Syntetic source 15uA
+        NRF_CLOCK->LFCLKSRC = (CLOCK_LFCLKSRC_SRC_Synth << CLOCK_LFCLKSRC_SRC_Pos);
+      #else
+        // RC oscillator 0.5-1.1uA
+        NRF_CLOCK->LFCLKSRC = (CLOCK_LFCLKSRC_SRC_RC << CLOCK_LFCLKSRC_SRC_Pos);        
+      #endif
+  #endif
+  NRF_CLOCK->EVENTS_LFCLKSTARTED = 0;
+  NRF_CLOCK->TASKS_LFCLKSTART = 1;
+    // Wait until oscillator startup is finished
+  while (NRF_CLOCK->EVENTS_LFCLKSTARTED == 0) { }
+  NRF_CLOCK->EVENTS_LFCLKSTARTED = 0;
+
+  // Initialize C library
+  __libc_init_array();
+    
+  // NRF51822 doesn't implement SysTick, so use the RTC for timing
+  rtc_config();
 }
 
 /*
