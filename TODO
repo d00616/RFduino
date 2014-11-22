@@ -1,5 +1,12 @@
 Remove Nordic SDK dependencies
 
+Flash Tool
+	- Windows Support (Java?)
+	- Flash Softdevice via burn bootloader function, when used
+
+BLE
+	- Add BLE support via Softdevice or porting a complete stack
+
 libnRF51System or variant.cpp
 	add nrf51duino_ppi_channel_assign, nrf51duino_ppi_channel_unassign
 	nrf51duino_nvic_setpriority
