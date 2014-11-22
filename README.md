@@ -45,6 +45,8 @@ WARNING: Please don't connect more then one board at the same thime when flashin
 
 ### Installation
 
+* Buy an Nordic NRF51 HDK, Download SDK and JLink Software
+
 * Download Arduino 1.5 here: [http://arduino.cc](http://arduino.cc/en/Main/Software)  
   (on osx remember to open arduino first to make gatekeeper perform its magic)  
 
@@ -54,6 +56,8 @@ WARNING: Please don't connect more then one board at the same thime when flashin
   or "git clone https://github.com/d00616/nRF51duino" in the directory indicated
 
 * Copy Nordic NRF51 SDK to hardware/arduino/nRF51duino/system/nRF51-SDK
+
+* Install SEGGER JLINK Software
 
 Your ready to go!
 
@@ -68,4 +72,4 @@ Your ready to go!
 ### Define you own board layout
 
 nRF51duino comes with predifinions for an PCA10000 Board. You can create your
-own "board.h" file in your Sketch to override settings.
+own "custom_board.h" file in your Sketch to override settings.
