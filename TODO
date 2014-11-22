@@ -1,0 +1,15 @@
+Remove Nordic SDK dependencies
+
+libnRF51System or variant.cpp
+	add nrf51duino_ppi_channel_assign, nrf51duino_ppi_channel_unassign
+	nrf51duino_nvic_setpriority
+
+variants/nRF51/variant.cpp
+	UART Code with uart limit when BLE is used
+
+cores/arduino/wiring_analog.c
+	find_free_PPI_channel
+		Fix, when Softdevice or BLE implementation use PPI channels
+	analogWrite
+		RFduinoGZLL_used is checked by RFduino when timer2 is used
+		Use of TASK channels

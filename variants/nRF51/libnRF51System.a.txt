@@ -95,5 +95,5 @@ system_nrf51.o:
 00000000 T SystemInit
 
 libnRF51duino.o:
-00000000 T rfduino_nvic_disableirq
-00000000 T rfduino_nvic_enableirq
+00000000 T nrf51duino_nvic_disableirq
+00000000 T nrf51duino_nvic_enableirq

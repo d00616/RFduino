@@ -1,18 +1,17 @@
 ### nRF51duino
 
 This code supports nRF51822 and nRF41422 chips from Nordic Semiconductor. At the moment no
-Softdevice functionality is supported out of the box A native Radio Library is planned. Feel
-free to add Softdevice or native BLE support so BLE or ANT+ can be used without Nordic nRF51
-SDK.
+Softdevice functionality is supported out of the box. A sketch cannot be compiled without
+Nordic SDK. Compliling a sketch without SDK and a native Radio Library (nRF24 compatible)
+is planned. Feel free to add Softdevice or native BLE support so BLE or ANT+ can be used
+without Nordic nRF51 SDK.
 
-Please keep in mind that using Nordic SDK functionality is not open source friendly at the
-moment. All example code and a lot of header files doesn't allow redistribution of source
-code. 
+Please keep in mind that using Nordic SDK is not open source friendly at the moment. All
+example code and a lot of header files doesn't allow redistribution of source code.
 
-To start you need an nRF51 development board and an JLink Adapter. If you plan using BLE or
-ANT+ functionality buy an offical Development Kit. If you plan to use more than one board
-choose an Development Kit with an external JLink adapter. If you want to use ANT+ protocol
-choose an nRF51422 or nRF51922 kit.
+To start you need an nRF51 development board with an JLink Adapter. You need to buy an offical
+development kit. If you plan to use more than one board choose an Development Kit with an external
+JLink adapter. If you want to use ANT+ protocol choose an nRF51422 or nRF51922 kit.
 
 Whats not working at the moment
  - Flashing Software under Windows
@@ -30,6 +29,8 @@ I Need help to:
  - write libraries for integrated chip hardware (Random, AES, CRC, Radio, Timer, RTC0, ...)
  - port my flash script to windows
  - test my flash script on OSX
+ - remove Nordic SDK dependencies
+ ...
 
 Not planned by me, but a good idea making this software better:
  - support SoftDevices without Nordic SDK (https://github.com/mrquincle/bluenet) or Porting a
@@ -38,7 +39,7 @@ Not planned by me, but a good idea making this software better:
 
 This is a fork of RFduino with broken compatibility because there are a lot of non open source
 files in RFduino. I have broken command compatibility to get more indipended and make it easy
-recreate core functionality. Thanks RFduino for all open source code i can use here.
+recreate core functionality. Thanks RFduino for your preliminary work.
 
 WARNING: Please don't connect more then one board at the same thime when flashing.
 
@@ -51,6 +52,8 @@ WARNING: Please don't connect more then one board at the same thime when flashin
   (on Windows, C:\arduino-1.5.4\hardware\arduino)  
   (on OSX, /Applications/Arduino.app/Contents/Resources/Java/hardware/arduino)  
   or "git clone https://github.com/d00616/nRF51duino" in the directory indicated
+
+* Copy Nordic NRF51 SDK to hardware/arduino/nRF51duino/system/nRF51-SDK
 
 Your ready to go!
 

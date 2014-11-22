@@ -47,12 +47,12 @@
 void attachInterrupt(uint8_t IRQn, callback_t callback)
 {
   dynamic_handlers[IRQn] = callback;
-  rfduino_nvic_enableirq(IRQn);
+  nrf51duino_nvic_enableirq(IRQn);
 }
 
 void detachInterrupt(uint8_t IRQn)
 {
-  rfduino_nvic_disableirq(IRQn);
+  nrf51duino_nvic_disableirq(IRQn);
   dynamic_handlers[IRQn] = NULL;
 }
 

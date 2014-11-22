@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (c) 2014 D00616..  All right reserved.
+# Copyright (c) 2014 nRF51duino.  All right reserved.
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public

@@ -1,4 +1,30 @@
 /*
+ Copyright (c) 2014 nRF51duino.  All right reserved.
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ See the GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/*
  Copyright (c) 2013 OpenSourceRF.com.  All right reserved.
 
  This library is free software; you can redistribute it and/or
@@ -81,7 +107,7 @@ void tone(uint8_t ulPin, uint16_t frequency, uint32_t duration)
 	GPIOTE_Channels_Occupied[ulPin] = 3;
 
 	// Configure PPI channel "6" for toggling pin
-  rfduino_ppi_channel_assign(6, &NRF_TIMER2->EVENTS_COMPARE[0], &NRF_GPIOTE->TASKS_OUT[3]);
+	nrf51duino_ppi_channel_assign(6, &NRF_TIMER2->EVENTS_COMPARE[0], &NRF_GPIOTE->TASKS_OUT[3]);
 
 	// Configure Timer 2
 	NRF_TIMER2->TASKS_STOP = 1;
@@ -123,7 +149,7 @@ static void TIMER2_Interrupt(void)
 		nrf_gpiote_unconfig(3);
 		GPIOTE_Channels_Occupied[tone_pin] = 255;
 		// Unconfig PPI channel 6
-		rfduino_ppi_channel_unassign(6);
+		nrf51duino_ppi_channel_unassign(6);
 		digitalWrite(tone_pin, LOW);
 		tone_pin = 255;
 	}
@@ -139,7 +165,7 @@ void noTone(uint8_t ulPin)
 		nrf_gpiote_unconfig(3);
 		GPIOTE_Channels_Occupied[tone_pin] = 255;
 		// Unconfig PPI channel 6
-		rfduino_ppi_channel_unassign(6);
+		nrf51duino_ppi_channel_unassign(6);
 		digitalWrite(tone_pin, LOW);
 		tone_pin = 255;
 	}

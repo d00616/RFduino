@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014 D00616..  All right reserved.
+ Copyright (c) 2014 nRF51duino.  All right reserved.
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -73,8 +73,8 @@
  * arduino source file.  It defines the board variant being used
 */
 
-#ifndef _VARIANT_RFDUINO_
-#define _VARIANT_RFDUINO_
+#ifndef _VARIANT_NRF51DUINO_
+#define _VARIANT_NRF51DUINO_
 
 /*----------------------------------------------------------------------------
  *        Headers
@@ -238,4 +238,4 @@ extern UARTClass Serial;
 
 #endif
 
-#endif /* _VARIANT_RFDUINO_ */
+#endif /* _VARIANT_NRF51DUINO_ */

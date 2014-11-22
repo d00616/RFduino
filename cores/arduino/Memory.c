@@ -80,7 +80,7 @@ int flashWrite( uint32_t *address, uint32_t value )
     return 2;
 
   // do not write to flash in the BLE radio is active
-  while (RFduinoBLE_radioActive)
+  while (nRF51duinoBLE_radioActive)
     ;
 
   // enable flash write

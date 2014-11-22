@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 # JLink Flash Script for rfduino with plain nRF51 chips
-# Copyright (C) 2014 d00616
+# Copyright (C) 2014 nRF51duino
 # 
 # This Software is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

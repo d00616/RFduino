@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2014 D00616.  All right reserved.
+  Copyright (c) 2014 nRF51duino.  All right reserved.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -245,6 +245,7 @@ void UART0_Start( int dwBaudRate, uint8_t rx_pin, uint8_t tx_pin )
   NRF_UART0->TASKS_STARTTX    = 1;
   NRF_UART0->TASKS_STARTRX    = 1;
 
+/*
   if (! override_uart_limit)
   {
     if (RFduinoBLE_enabled && dwBaudRate > 9600)
@@ -262,6 +263,8 @@ void UART0_Start( int dwBaudRate, uint8_t rx_pin, uint8_t tx_pin )
         ;
     }
   }
+*/
+
 }
 
 void UART0_Stop()

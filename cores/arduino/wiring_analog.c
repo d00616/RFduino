@@ -1,4 +1,30 @@
 /*
+ Copyright (c) 2014 nRF51duino.  All right reserved.
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ See the GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/*
  Copyright (c) 2013 OpenSourceRF.com.  All right reserved.
 
  This library is free software; you can redistribute it and/or
@@ -133,22 +159,29 @@ int find_free_PPI_channel(int exclude_channel)
   // For GZLL only, find first free PPI Channel in the range 3-8.  Note the channels 0-2 and TIMER2 are used by Gazell.  Maximum 3 PPI pairs.
   // For GZLL and BLE, find first free PPI Channel in the range 3-7.  Maximum 2 PPI pairs.
   int start = 0;
-  int end = 8;
+  #ifdef USE_SOFTDEVICE
+          int end = 8;
+  #else
+          int end = 16;
+  #endif
 
   int i;
 
+  // FIXME
+  /*
   if (RFduinoGZLL_used)
     start = 3;
 
   if (! RFduinoBLE_used)
     end = 16;
-
+*/
   for (i = start; i < end; i++)
     if (! (NRF_PPI->CHEN & (1 << i)))
       if (i != exclude_channel)
         return i;
 
   return 255;
+
 }
 
 void turn_On_PPI_to_GPIO_for_PWM(uint32_t ulPin, uint32_t gpiote_channel, NRF_TIMER_Type* Timer, uint32_t CC_channel)
@@ -395,7 +428,9 @@ void analogWrite(uint32_t ulPin, uint32_t ulValue) {
 			else
 			{
 				// All channels of Timer1 is occupied, need to use Timer2
-				if (!RFduinoGZLL_used && Timer2_Compare_Unit_Occupied_by_Pin[0] == 255)
+				// FIXME
+//				if (!RFduinoGZLL_used && Timer2_Compare_Unit_Occupied_by_Pin[0] == 255)
+				if (Timer2_Compare_Unit_Occupied_by_Pin[0] == 255)
 				{
 					// Timer2 is not used: need to initialize it
 

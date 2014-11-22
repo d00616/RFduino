@@ -19,11 +19,6 @@ extern "C" {
 #define HIGH 1
 #define DISABLE 5
 
-extern int RFduinoBLE_used;
-extern int RFduinoGZLL_used;
-extern int RFduinoBLE_enabled;
-extern int RFduinoGZLL_enabled;
-
 // pass the pin number so you can use the same interrupt handler for all pins
 // return 0 to reset wake_detect bit (and not exit RFduino_ULPDelay)
 // return 1 to leave wake_detect bit alone (and exit RFduino_ULPDelay)
@@ -39,10 +34,10 @@ typedef int (*pin_callback_t)(uint32_t ulPin);
  *
  * \param ms the number of milliseconds to switch to ultra low power (max is DAYS(7) unless INFINITE)
  */
-extern void RFduino_ULPDelay( uint64_t ms );
+extern void nRF51duino_ULPDelay( uint64_t ms );
 
 // the same function is used for both BLE and NonBLE (so alias it both ways)
-#define RFduinoBLE_ULPDelay(x) RFduino_ULPDelay(x)
+#define nRF51duinoBLE_ULPDelay(x) nRF51duino_ULPDelay(x)
 
 /**
  * \brief Configures the pin to wake the device from system off.
@@ -50,23 +45,23 @@ extern void RFduino_ULPDelay( uint64_t ms );
  * \param ulPin The number of the digital pin you want to read (int)
  * \param dwWake Either DISABLED, HIGH or LOW
  */
-extern void RFduino_pinWake( uint32_t ulPin, uint32_t dwWake );
+extern void nRF51duino_pinWake( uint32_t ulPin, uint32_t dwWake );
 
 /**
  * \brief Test whether a pin caused us to wakeup and exit ulp_delay
  *
  * \param ulPin The number of the digital pin you want to read (int)
  *
- *        You must call RFduino_resetPinWoke() to reset this condition after processing
+ *        You must call nRF51duino_resetPinWoke() to reset this condition after processing
  */
-extern int RFduino_pinWoke( uint32_t ulPin );
+extern int nRF51duino_pinWoke( uint32_t ulPin );
 
 /**
  * \brief Reset state of pin that caused us to wakeup and exit ulp_delay
  *
  * \param ulPin The number of the digital pin you want to reset
  */
-extern void RFduino_resetPinWake( uint32_t ulPin );
+extern void nRF51duino_resetPinWake( uint32_t ulPin );
 
 /**
  * \brief Configures the pin to wake the device from system off and execute a callback.
@@ -78,23 +73,23 @@ extern void RFduino_resetPinWake( uint32_t ulPin );
  *                 int my_pin_callback(uint32_t pin)
  *                 {
  *                   // do something
- *                   // return 0 to reset wake_detect, return 1 to exit RFduino_ULPDelay
+ *                   // return 0 to reset wake_detect, return 1 to exit nRF51duino_ULPDelay
  *                   return 0;
  *                 }
  *                 To call this function on the when pin 5 goes high:
- *                 RFduino_pinWake(5, HIGH, my_pin_callback);
+ *                 nRF51duino_pinWake(5, HIGH, my_pin_callback);
  */
-extern void RFduino_pinWakeCallback( uint32_t ulPin, uint32_t dwWake, pin_callback_t callback ) ;
+extern void nRF51duino_pinWakeCallback( uint32_t ulPin, uint32_t dwWake, pin_callback_t callback ) ;
 
 /**
  * \brief Reset the system
  */
-extern void RFduino_systemReset(void);
+extern void nRF51duino_systemReset(void);
 
 /**
  * \brief Turn the system off
  */
-extern void RFduino_systemOff(void);
+extern void nRF51duino_systemOff(void);
 
 /**
  * \brief Get a sample from the temperature sensor
@@ -105,18 +100,18 @@ extern void RFduino_systemOff(void);
  *     degrees f (-198.00 to +260.00)
  *     degrees c (-128.00 to +127.00)
  */
-extern float RFduino_temperature(int scale);
+extern float nRF51duino_temperature(int scale);
 
-void rfduino_ppi_channel_assign(uint8_t channel_num, const volatile void * event_endpoint, const volatile void * task_endpoint);
-void rfduino_ppi_channel_unassign(uint8_t channel_num);
+void nrf51duino_ppi_channel_assign(uint8_t channel_num, const volatile void * event_endpoint, const volatile void * task_endpoint);
+void nrf51duino_ppi_channel_unassign(uint8_t channel_num);
 
-void rfduino_nvic_enableirq(uint8_t irq_num);
-void rfduino_nvic_disableirq(uint8_t irq_num);
+void nrf51duino_nvic_enableirq(uint8_t irq_num);
+void nrf51duino_nvic_disableirq(uint8_t irq_num);
 
-void rfduino_nvic_setpriority(uint8_t irq_num, uint32_t priority);
+void nrf51duino_nvic_setpriority(uint8_t irq_num, uint32_t priority);
 
 // 1 if the BLE radio is active (or about to become active), 0 if not
-extern volatile int RFduinoBLE_radioActive;
+extern volatile int nRF51duinoBLE_radioActive;
 
 #ifdef __cplusplus
 }
