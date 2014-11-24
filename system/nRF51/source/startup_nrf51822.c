@@ -67,41 +67,41 @@ extern uint32_t _sstack;
 extern uint32_t _estack;
 
 void Reset_Handler(void);
-void Default_Int_Handler(void);
+void Default_Handler(void);
 
 /* Cortex-M0 core handlers */
-void NMI_Handler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void HardFault_Handler  ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void SVC_Handler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void PendSV_Handler     ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void SysTick_Handler    ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
+void NMI_Handler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void HardFault_Handler  ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void SVC_Handler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void PendSV_Handler     ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void SysTick_Handler    ( void ) __attribute__ ((weak, alias("Default_Handler")));
 
 /* Peripherals handlers */
-void POWER_CLOCK_IRQHandler ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void RADIO_IRQHandler       ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void UART0_IRQHandler       ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void SPI0_TWI0_IRQHandler   ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void SPI1_TWI1_IRQHandler   ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void GPIOTE_IRQHandler      ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void ADC_IRQHandler         ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void TIMER0_IRQHandler      ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void TIMER1_IRQHandler      ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void TIMER2_IRQHandler      ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void RTC0_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void TEMP_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void RNG_IRQHandler         ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void ECB_IRQHandler         ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void CCM_AAR_IRQHandler     ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void WDT_IRQHandler         ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void RTC1_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void QDEC_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void WUCOMP_IRQHandler      ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void SWI0_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void SWI1_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void SWI2_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void SWI3_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void SWI4_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
-void SWI5_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Int_Handler")));
+void POWER_CLOCK_IRQHandler ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void RADIO_IRQHandler       ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void UART0_IRQHandler       ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void SPI0_TWI0_IRQHandler   ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void SPI1_TWI1_IRQHandler   ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void GPIOTE_IRQHandler      ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void ADC_IRQHandler         ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void TIMER0_IRQHandler      ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void TIMER1_IRQHandler      ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void TIMER2_IRQHandler      ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void RTC0_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void TEMP_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void RNG_IRQHandler         ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void ECB_IRQHandler         ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void CCM_AAR_IRQHandler     ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void WDT_IRQHandler         ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void RTC1_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void QDEC_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void LPCOMP_IRQHandler      ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void SWI0_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void SWI1_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void SWI2_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void SWI3_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void SWI4_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
+void SWI5_IRQHandler        ( void ) __attribute__ ((weak, alias("Default_Handler")));
 
 typedef struct
 {
@@ -145,7 +145,7 @@ typedef struct
   void* pfnWDT_IRQHandler;            /* 16 Watchdog Timer */
   void* pfnRTC1_IRQHandler;           /* 17 Real Time Clock Controller 1 */
   void* pfnQDEC_IRQHandler;           /* 18 QDEC */
-  void* pfnWUCOMP_IRQHandler;         /* 19 WUCOMP */
+  void* pfnLPCOMP_IRQHandler;         /* 19 LPCOMP/WUCOMP */
   void* pfnSWI0_IRQHandler;           /* 20 Software Interrupt 0 */
   void* pfnSWI1_IRQHandler;           /* 21 Software Interrupt 1 */
   void* pfnSWI2_IRQHandler;           /* 22 Software Interrupt 2 */
@@ -201,7 +201,7 @@ const vector_table_t vector_table = {
     (void*) WDT_IRQHandler,            /* 16 Watchdog Timer */
     (void*) RTC1_IRQHandler,           /* 17 Real Time Clock Controller 1 */
     (void*) QDEC_IRQHandler,           /* 18 QDEC */
-    (void*) WUCOMP_IRQHandler,         /* 19 WUCOMP */
+    (void*) LPCOMP_IRQHandler,         /* 19 LPCOMP/WUCOMP */
     (void*) SWI0_IRQHandler,           /* 20 Software Interrupt 0 */
     (void*) SWI1_IRQHandler,           /* 21 Software Interrupt 1 */
     (void*) SWI2_IRQHandler,           /* 22 Software Interrupt 2 */
@@ -247,7 +247,7 @@ dynamic_handler_t *dynamic_handlers = &exception_handlers[16];
 /**
  * \brief Default interrupt handler for unused IRQs.
  */
-void Default_Int_Handler(void)
+void Default_Handler(void)
 {
   // call the dynamic exception handler registered for the exception number of the the active vector
   // field of the interrupt control and state register of the system control block
@@ -268,7 +268,7 @@ void Default_Dynamic_Handler(void)
 /**
  * \brief Default interrupt handler for unused IRQs.
  */
-void Default_Int_Handler(void)
+void Default_Handler(void)
 {
     while (1)
       ;

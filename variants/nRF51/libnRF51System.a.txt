@@ -1,66 +1,66 @@
 
 startup_nrf51822_s.o:
-00000052 W ADC_IRQHandler
-00000052 W CCM_AAR_IRQHandler
+         U ADC_IRQHandler
+         U CCM_AAR_IRQHandler
          U __data_end__
          U __data_start__
-00000052 T Default_Handler
-00000052 W ECB_IRQHandler
+         U ECB_IRQHandler
          U __etext
-00000052 W GPIOTE_IRQHandler
+         U GPIOTE_IRQHandler
 0000004a W HardFault_Handler
 00000000 N __HeapBase
 00000800 N __HeapLimit
 00000800 a Heap_Size
          U __HEAP_SIZE
-00000052 W LPCOMP_IRQHandler
+         U LPCOMP_IRQHandler
 00000048 W NMI_Handler
 40000524 a NRF_POWER_RAMON_ADDRESS
 40000554 a NRF_POWER_RAMONB_ADDRESS
 00000003 a NRF_POWER_RAMONx_RAMxON_ONMODE_Msk
 0000004e W PendSV_Handler
-00000052 W POWER_CLOCK_IRQHandler
-00000052 W QDEC_IRQHandler
-00000052 W RADIO_IRQHandler
+         U POWER_CLOCK_IRQHandler
+         U QDEC_IRQHandler
+         U RADIO_IRQHandler
 00000000 T Reset_Handler
-00000052 W RNG_IRQHandler
-00000052 W RTC0_IRQHandler
-00000052 W RTC1_IRQHandler
-00000052 W SPI0_TWI0_IRQHandler
-00000052 W SPI1_TWI1_IRQHandler
+         U RNG_IRQHandler
+         U RTC0_IRQHandler
+         U RTC1_IRQHandler
+         U SPI0_TWI0_IRQHandler
+         U SPI1_TWI1_IRQHandler
 00000000 N __StackLimit
 00000800 a Stack_Size
          U __STACK_SIZE
 00000800 N __StackTop
          U _start
 0000004c W SVC_Handler
-00000052 W SWI0_IRQHandler
-00000052 W SWI1_IRQHandler
-00000052 W SWI2_IRQHandler
-00000052 W SWI3_IRQHandler
-00000052 W SWI4_IRQHandler
-00000052 W SWI5_IRQHandler
+         U SWI0_IRQHandler
+         U SWI1_IRQHandler
+         U SWI2_IRQHandler
+         U SWI3_IRQHandler
+         U SWI4_IRQHandler
+         U SWI5_IRQHandler
          U SystemInit
 00000050 W SysTick_Handler
-00000052 W TEMP_IRQHandler
-00000052 W TIMER0_IRQHandler
-00000052 W TIMER1_IRQHandler
-00000052 W TIMER2_IRQHandler
-00000052 W UART0_IRQHandler
+         U TEMP_IRQHandler
+         U TIMER0_IRQHandler
+         U TIMER1_IRQHandler
+         U TIMER2_IRQHandler
+         U UART0_IRQHandler
 00000000 N __Vectors
-00000052 W WDT_IRQHandler
+         U WDT_IRQHandler
 
 startup_nrf51822_c.o:
 00000000 W ADC_IRQHandler
 00000000 W CCM_AAR_IRQHandler
 00000000 T Default_Dynamic_Handler
-00000000 T Default_Int_Handler
+00000000 T Default_Handler
 00000000 D dynamic_handlers
 00000000 W ECB_IRQHandler
          U _estack
 00000000 D exception_handlers
 00000000 W GPIOTE_IRQHandler
 00000000 W HardFault_Handler
+00000000 W LPCOMP_IRQHandler
 00000000 W NMI_Handler
 00000000 W PendSV_Handler
 00000000 W POWER_CLOCK_IRQHandler
@@ -87,7 +87,6 @@ startup_nrf51822_c.o:
 00000000 W UART0_IRQHandler
 00000000 R vector_table
 00000000 W WDT_IRQHandler
-00000000 W WUCOMP_IRQHandler
 
 system_nrf51.o:
 00000000 D SystemCoreClock

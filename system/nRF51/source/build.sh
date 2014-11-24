@@ -36,7 +36,8 @@ ar="$tools/bin/arm-none-eabi-ar"
 nm="$tools/bin/arm-none-eabi-nm"
 includes="-I../include -I../../nRF51-SDK/nrf51822/Include/ -I../../CMSIS/CMSIS/Include -I../../../variants/nRF51/"
 cflags="-Os -w -mcpu=cortex-m0 -mthumb -DNRF51 -DBOARD_PCA10001 -ffunction-sections -fdata-sections -fno-rtti -fno-exceptions -fno-builtin $includes"
-startupcode="../../nRF51-SDK/nrf51822/Source/templates/gcc/gcc_startup_nrf51.s"
+#startupcode="../../nRF51-SDK/nrf51822/Source/templates/gcc/gcc_startup_nrf51.s"
+startupcode="gcc_startup_nrf51.s"
 
 # create build directory
 build=$(mktemp -d) || exit 1
