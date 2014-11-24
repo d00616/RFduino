@@ -1,4 +1,30 @@
 /*
+ Copyright (c) 2014 nRF51duino.  All right reserved.
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ See the GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/*
  Copyright (c) 2013 OpenSourceRF.com.  All right reserved.
 
  This library is free software; you can redistribute it and/or
@@ -47,7 +73,21 @@
 
 #include "HardwareSerial.h"
 #include "RingBuffer.h"
-//#include "variant.h"
+#include "custom_board.h"
+#include "nrf51.h"
+#include "nrf51_bitfields.h"
+#include "variant.h"
+
+#ifndef UART_BAUDRATE_BAUDRATE_Baud31250
+ #define UART_BAUDRATE_BAUDRATE_Baud31250 (0x00800000UL) /*!< 31250 baud.(MIDI)  */
+#endif
+
+typedef enum
+{
+  UART0_State_NotStarted,
+  UART0_State_BeforeFirstTX,
+  UART0_State_AfterFirstTX
+}  UART0_States;
 
 typedef void Uart;
 
@@ -57,12 +97,15 @@ class UARTClass : public HardwareSerial
     RingBuffer *_rx_buffer, *_tx_buffer ;
     volatile bool transmitting;
     void tx( void );
+    UART0_States UART0_State;
+    int UART0_BaudRate();
 
   public:
     UARTClass( RingBuffer* pRx_buffer, RingBuffer* pTx_Buffer ) ;
 
     void begin( const uint32_t dwBaudRate ) ;
-	  void begin( const uint32_t dwBaudRate, uint8_t rx_pin, uint8_t tx_pin ) ;
+    void begin( const uint32_t dwBaudRate, uint8_t rx_pin, uint8_t tx_pin ) ;
+    void begin( const uint32_t dwBaudRate, uint8_t rx_pin, uint8_t tx_pin, uint8_t rts_pin, uint8_t cts_pin );
     void end( void ) ;
     int available( void ) ;
     int peek( void ) ;

@@ -20,3 +20,14 @@ cores/arduino/wiring_analog.c
 	analogWrite
 		RFduinoGZLL_used is checked by RFduino when timer2 is used
 		Use of TASK channels
+
+cores/arduino/syscalls.c
+	_write
+	UNUSED() s. syscalls_sam3.c
+
+cores/arduino/UARTClass.cpp
+	Remove   rts_pin=UART0_RTS_PIN;  
+		 tx_pin=UART0_TX_PIN;    
+		 cts_pin=UART0_CTS_PIN;  
+		 rx_pin=UART0_RX_PIN;    
+	Enable interrupt driven communication

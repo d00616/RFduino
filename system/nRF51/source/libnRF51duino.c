@@ -91,7 +91,7 @@ inline void nrf51duino_nvic_disableirq(uint8_t irq_num)
   NVIC_DisableIRQ(irq_num);
 }
 
-//void nrf51duino_nvic_setpriority(uint8_t irq_num, uint32_t priority);
+//void rfduino_nvic_setpriority(uint8_t irq_num, uint32_t priority);
 
 // 1 if the BLE radio is active (or about to become active), 0 if not
 //extern volatile int RFduinoBLE_radioActive;

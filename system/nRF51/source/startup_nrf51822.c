@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014 D00616..  All right reserved.
+ Copyright (c) 2014 nRF51duino.  All right reserved.
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -23,6 +23,7 @@
  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
+
 
 /*
  Copyright (c) 2013 OpenSourceRF.com.  All right reserved.

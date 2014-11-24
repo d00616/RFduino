@@ -1,4 +1,30 @@
 /*
+ Copyright (c) 2014 nRF51duino.  All right reserved.
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ See the GNU Lesser General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/*
  Copyright (c) 2013 OpenSourceRF.com.  All right reserved.
 
  This library is free software; you can redistribute it and/or
@@ -129,6 +155,7 @@ extern int _read(int file, char *ptr, int len)
 
 extern int _write( int file, char *ptr, int len )
 {
+/*
     // declared in variant.cpp
     // UART0_TX will not TX or lockup flushing TX if UART0 has not been started
     extern void UART0_TX( uint8_t uc_data );
@@ -137,6 +164,8 @@ extern int _write( int file, char *ptr, int len )
     for (i = 0; i < len; i++, ptr++)
         UART0_TX(*ptr);
     return i;
+*/
+    return 0;
 }
 
 extern void _exit( int status )
