@@ -92,12 +92,11 @@ UARTClass::UARTClass( RingBuffer* pRx_buffer, RingBuffer* pTx_buffer )
 
 void UARTClass::begin( const uint32_t dwBaudRate )
 {
-	this->begin( dwBaudRate, UART0_RX_PIN, UART0_TX_PIN, UART0_RTS_PIN, UART0_CTS_PIN );
+  this->begin( dwBaudRate, UART0_RX_PIN, UART0_TX_PIN, UART0_RTS_PIN, UART0_CTS_PIN );
 }
 
 void UARTClass::begin( const uint32_t dwBaudRate, uint8_t rx_pin, uint8_t tx_pin )
 {
-  transmitting = false;
   this->begin( dwBaudRate, rx_pin, tx_pin, 255, 255 );
 }
 
@@ -182,43 +181,22 @@ void UARTClass::begin( const uint32_t dwBaudRate, uint8_t rx_pin, uint8_t tx_pin
 
   UART0_State = UART0_State_BeforeFirstTX;
 
-/*
+
   NRF_UART0->INTENSET        |= (UART_INTENSET_RXDRDY_Enabled << UART_INTENSET_RXDRDY_Pos )
                               | (UART_INTENSET_TXDRDY_Enabled << UART_INTENSET_TXDRDY_Pos );
 
-  attachInterrupt(UART0_IRQn, UART0_Interrupt);
-*/
+  attachInterrupt(UART0_IRQn, UART0_Interrupt );
+
   
   NRF_UART0->TASKS_STARTTX = 1;
   NRF_UART0->TASKS_STARTRX = 1;
   NRF_UART0->EVENTS_RXDRDY    = 0;
   NRF_UART0->EVENTS_TXDRDY    = 0;
-
-/*
-  if (! override_uart_limit)
-  {
-    if (RFduinoBLE_enabled && dwBaudRate > 9600)
-    {
-      const char *error = "BLE + UART > 9600 baud not recommended due to critical BLE timing requirements.\r\n"
-        "To override, add: override_uart_limit = true; to the top of setup() in your sketch.";
-
-      // attempt to notify user of error condition
-      const char *p = error;
-      while (*p)
-        UART0_TX(*p++);
-
-      // don't continue
-      while (1)
-        ;
-    }
-  }
-*/
-
 }
 
 void UARTClass::end( void )
 {
-  if (this->UART0_State == UART0_State_NotStarted)
+  if (UART0_State == UART0_State_NotStarted)
     return;
 
   // Wait for any outstanding data to be sent
@@ -240,7 +218,7 @@ void UARTClass::end( void )
               | (GPIO_PIN_CNF_INPUT_Connect << GPIO_PIN_CNF_INPUT_Pos)
               | (GPIO_PIN_CNF_DIR_Input << GPIO_PIN_CNF_DIR_Pos);                    
 
-  this->UART0_State = UART0_State_NotStarted;
+  UART0_State = UART0_State_NotStarted;
 
   // clear any received data
   _rx_buffer->_iHead = _rx_buffer->_iTail ;
@@ -249,11 +227,7 @@ void UARTClass::end( void )
 
 int UARTClass::available( void )
 {
-  return (int)NRF_UART0->EVENTS_RXDRDY;
-/* FIXME
- *******
   return (uint32_t)(SERIAL_BUFFER_SIZE + _rx_buffer->_iHead - _rx_buffer->_iTail) % SERIAL_BUFFER_SIZE ;
-*/
 }
 
 int UARTClass::peek( void )
@@ -266,14 +240,6 @@ int UARTClass::peek( void )
 
 int UARTClass::read( void )
 {
-    if (NRF_UART0->EVENTS_RXDRDY != 1)
-    {
-      return -1;
-    }
-    NRF_UART0->EVENTS_RXDRDY = 0;
-    return (unsigned int)NRF_UART0->RXD;
-
-/*
   // if the head isn't ahead of the tail, we don't have any characters
   if ( _rx_buffer->_iHead == _rx_buffer->_iTail )
     return -1 ;
@@ -281,48 +247,40 @@ int UARTClass::read( void )
   uint8_t uc = _rx_buffer->_aucBuffer[_rx_buffer->_iTail] ;
   _rx_buffer->_iTail = (unsigned int)(_rx_buffer->_iTail + 1) % SERIAL_BUFFER_SIZE ;
   return uc ;
-*/
 }
 
 void UARTClass::flush( void )
 {
-  // Wait for any outstanding data to be sent
   while (transmitting)
     ;
 }
 
 void UARTClass::tx( void )
 {
-/*
+  // if something in buffer?
   if ( _tx_buffer->_iHead == _tx_buffer->_iTail )
   {
+    // set transmitting state top stop
     transmitting = false;
     return;
   }
 
+  // set transmitting state to start
   transmitting = true;
 
   uint8_t uc = _tx_buffer->_aucBuffer[_tx_buffer->_iTail] ;
   _tx_buffer->_iTail = (unsigned int)(_tx_buffer->_iTail + 1) % SERIAL_BUFFER_SIZE ;
 
-//  UART0_TXD(uc);
-*/
+  // tx byte
+  NRF_UART0->TXD = uc;
+
+  // don't change start if not started
+  if (UART0_State == UART0_State_BeforeFirstTX)
+    UART0_State = UART0_State_AfterFirstTX;
 }
 
 size_t UARTClass::write( const uint8_t uc_data )
 {
-  // silently discard data if Serial.begin() hasn't been called
-  if (UART0_State == UART0_State_NotStarted)
-    return 1;
-
-  nrf_gpio_pin_clear(23u);
-  NRF_UART0->TXD = (uint8_t)uc_data;
-  while (NRF_UART0->EVENTS_TXDRDY != 1)
-    ;
-  NRF_UART0->EVENTS_TXDRDY = 0;
-  nrf_gpio_pin_set(23u);
-
-/*
   // Wait if tx_buffer space is not available
   while ((_tx_buffer->_iHead + 1) % SERIAL_BUFFER_SIZE == _tx_buffer->_iTail)
     ;
@@ -331,35 +289,52 @@ size_t UARTClass::write( const uint8_t uc_data )
 
   if (! transmitting)
     tx();
-*/
+
   return 1;
+}
+
+// IRQ handler
+void UART0_Interrupt()
+{
+  Serial.IrqHandler();
 }
 
 void UARTClass::IrqHandler( void )
 {
-/*
-  if (UART0_TXReady())
+  if (NRF_UART0->EVENTS_TXDRDY)
   {
-    UART0_TXReset();
+    // TXReset
+    NRF_UART0->EVENTS_TXDRDY = 0;
     tx();
   }
 
   // did we receive data
-  if (UART0_RXReady())
+  if (NRF_UART0->EVENTS_RXDRDY)
   {
-    UART0_RXReset();
+    // RXReset
+    NRF_UART0->EVENTS_RXDRDY = 0;
 
-    uint8_t ch = UART0_RXData();
+    // Read Data
+    uint8_t ch = NRF_UART0->RXD;
 
-    if (UART0_RXErrorReset())
+    // Check errors (UART0_RXErrorReset)
+    if (NRF_UART0->ERRORSRC & UART_ERRORSRC_OVERRUN_Msk)
+    {
+      NRF_UART0->ERRORSRC = (UART_ERRORSRC_OVERRUN_Clear << UART_ERRORSRC_OVERRUN_Pos);
       return;
+    }
+    else if (NRF_UART0->ERRORSRC & UART_ERRORSRC_FRAMING_Msk)
+    {
+      NRF_UART0->ERRORSRC = (UART_ERRORSRC_FRAMING_Clear << UART_ERRORSRC_FRAMING_Pos);
+      return;
+    }
 
+    // Store in buffer
     _rx_buffer->store_char(ch);
 
     if (serialEvent)
       serialEvent();
   }
-*/
 }
 
 int UARTClass::UART0_BaudRate()
@@ -387,108 +362,3 @@ int UARTClass::UART0_BaudRate()
   return 0;
 }
 
-
-/*
-*
- * UART0 core
- *
-
-// UART0_TX is called by syscalls _write (note: printf() must end with '\n')
-// we don't want to lockup waiting for TX until after UART0_Start()
-
-// NRF_UART0->EVENTS_TXDRDY is initialized to 0 at power up
-// we cannot test this event until after one byte has been transmitted
-
-
-void UART0_Start( int dwBaudRate, uint8_t rx_pin, uint8_t tx_pin, uint8_t rts_pin, uint8_t cts_pin )
-{
-}
-
-void UART0_Stop()
-{
-}
-
-void UART0_FlushTX()
-{
-  Serial.flush(); 
-}
-
-// delegate to serial for syscalls/write and error messages
-void UART0_TX( const uint8_t uc_data )
-{
-  Serial.write( uc_data );
-}
-
-void UART0_TXD( const uint8_t uc_data )
-{
-  // tx byte
-  NRF_UART0->TXD = uc_data;
-
-  // don't change start if not started
-  if (UART0_State == UART0_State_BeforeFirstTX)
-    UART0_State = UART0_State_AfterFirstTX;
-}
-
-// UART0_RXReady declared inline in variant.h
-
-// UART0_RXData declared inline in variant.h
-
-void UART0_RXReset()
-{
-  NRF_UART0->EVENTS_RXDRDY = 0;
-}
-
-void UART0_TXReset()
-{
-  NRF_UART0->EVENTS_TXDRDY = 0;
-}
-
-int UART0_RXErrorReset()
-{
-  if (NRF_UART0->ERRORSRC & UART_ERRORSRC_OVERRUN_Msk)
-  {
-    NRF_UART0->ERRORSRC = (UART_ERRORSRC_OVERRUN_Clear << UART_ERRORSRC_OVERRUN_Pos);
-    return true;
-  }
-  *
-  else if (NRF_UART0->ERRORSRC & UART_ERRORSRC_PARITY_Msk)
-  {
-    NRF_UART0->ERRORSRC = (UART_ERRORSRC_PARITY_Clear << UART_ERRORSRC_PARITY_Pos);
-  }
-  *
-  else if (NRF_UART0->ERRORSRC & UART_ERRORSRC_FRAMING_Msk)
-  {
-    NRF_UART0->ERRORSRC = (UART_ERRORSRC_FRAMING_Clear << UART_ERRORSRC_FRAMING_Pos);
-    return true;
-  }
-  *
-  else if (NRF_UART0->ERRORSRC & UART_ERRORSRC_BREAK_Msk)
-  {
-    NRF_UART0->ERRORSRC = (UART_ERRORSRC_BREAK_Clear << UART_ERRORSRC_BREAK_Pos);
-  }
-  *
-
-  return false;
-}
-
-uint8_t UART0_RX()
-{
-  uint8_t uc_data;
-
-  // if you call UART0_RX(), you expect UART0 to be Started (no need to check UART0_State)
-
-  do
-  {
-    // byte available
-    while (! UART0_RXReady())
-      ;
-
-    UART0_RXReset();
-
-    uc_data = UART0_RXData();
-
-  } while (UART0_RXErrorReset());
-
-  return uc_data;
-}
-*/

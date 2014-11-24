@@ -91,6 +91,8 @@ typedef enum
 
 typedef void Uart;
 
+void UART0_Interrupt();
+
 class UARTClass : public HardwareSerial
 {
   protected:
