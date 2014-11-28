@@ -181,13 +181,11 @@ void UARTClass::begin( const uint32_t dwBaudRate, uint8_t rx_pin, uint8_t tx_pin
 
   UART0_State = UART0_State_BeforeFirstTX;
 
-
   NRF_UART0->INTENSET        |= (UART_INTENSET_RXDRDY_Enabled << UART_INTENSET_RXDRDY_Pos )
                               | (UART_INTENSET_TXDRDY_Enabled << UART_INTENSET_TXDRDY_Pos );
 
   attachInterrupt(UART0_IRQn, UART0_Interrupt );
 
-  
   NRF_UART0->TASKS_STARTTX = 1;
   NRF_UART0->TASKS_STARTRX = 1;
   NRF_UART0->EVENTS_RXDRDY    = 0;
@@ -221,8 +219,7 @@ void UARTClass::end( void )
   UART0_State = UART0_State_NotStarted;
 
   // clear any received data
-  _rx_buffer->_iHead = _rx_buffer->_iTail ;
-
+  _rx_buffer->_iHead = _rx_buffer->_iTail;
 }
 
 int UARTClass::available( void )
@@ -264,9 +261,11 @@ void UARTClass::tx( void )
     transmitting = false;
     return;
   }
+//   nrf_gpio_pin_clear(23u);
 
   // set transmitting state to start
   transmitting = true;
+   
 
   uint8_t uc = _tx_buffer->_aucBuffer[_tx_buffer->_iTail] ;
   _tx_buffer->_iTail = (unsigned int)(_tx_buffer->_iTail + 1) % SERIAL_BUFFER_SIZE ;

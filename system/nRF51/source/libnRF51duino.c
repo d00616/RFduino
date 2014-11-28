@@ -80,7 +80,7 @@
 void nrf51duino_ppi_channel_assign(uint8_t channel_num, const volatile void * event_endpoint, const volatile void * task_endpoint);
 void nrf51duino_ppi_channel_unassign(uint8_t channel_num);
 
-inline void nrf51duino_nvic_enableirq(uint8_t irq_num)
+void nrf51duino_nvic_enableirq(uint8_t irq_num)
 {
   NVIC_ClearPendingIRQ(irq_num);
   NVIC_EnableIRQ(irq_num);
