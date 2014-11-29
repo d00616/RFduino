@@ -1,5 +1,8 @@
 ### nRF51duino
 
+This Software is completely unstable at the moment. It looks like there is a problem with
+linker scripts.
+
 This code supports nRF51822 and nRF41422 chips from Nordic Semiconductor. At the moment no
 Softdevice functionality is supported out of the box. A sketch cannot be compiled without
 Nordic SDK. Compliling a sketch without SDK and a native Radio Library (nRF24 compatible)
@@ -20,12 +23,12 @@ Whats not working at the moment
 Tested at the moment:
  - Startcode
  - RTC
- - DigitalWrite
  - Delay
- - Serial interface
 
 I Need help to:
  - remove linker warnings
+ - DigitalWrite
+ - Serial interface (memory problems)
  - write libraries for integrated chip hardware (Random, AES, CRC, Radio, Timer, RTC0, ...)
  - port my flash script to windows
  - test my flash script on OSX
