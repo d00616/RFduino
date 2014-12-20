@@ -1,5 +1,9 @@
 Remove Nordic SDK dependencies
 
+Product Anomalies:
+	- Start RTC after frist LFCLOCK event nRF51422 PAN v3.0
+	- Look at other PAN Documents
+
 Flash Tool
 	- Windows Support (Java?)
 	- Flash Softdevice via burn bootloader function, when used

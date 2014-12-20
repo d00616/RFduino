@@ -2,3 +2,4 @@ Create interrupt hander like in startup_nrf51.c to g++_startup.c
 Write zeros to BSS segement
 Copy data segment
 This may help: http://fun-tech.se/stm32/linker/index.php
+Enable all RAM Banks RAMON Register
