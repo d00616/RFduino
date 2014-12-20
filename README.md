@@ -1,7 +1,12 @@
 ### nRF51duino
 
 This Software is completely unstable at the moment. It looks like there is a problem with
-linker scripts.
+linker scripts or startup code. At my opinion the initialisation if bss and other segments
+are not correctly. Code like printf, serial ring buffer are not working correctly.
+
+At the moment i'm evaluate if RIOT OS is usable for me. If you are interested on using NRF51
+with Arduino, so feel free to fork this project. I have added my unfinised startup code here.
+(system/nRF51/source/unfinished-startup-code)
 
 This code supports nRF51822 and nRF41422 chips from Nordic Semiconductor. At the moment no
 Softdevice functionality is supported out of the box. A sketch cannot be compiled without
@@ -18,6 +23,7 @@ JLink adapter. If you want to use ANT+ protocol choose an nRF51422 or nRF51922 k
 
 Whats not working at the moment
  - Flashing Software under Windows
+ - Anything needs memory
  - A lot of untested functionality
 
 Tested at the moment:
